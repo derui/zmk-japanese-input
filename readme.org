@@ -1,12 +1,20 @@
 * Japanese Input for ZMK
 日本語入力を実装するbehavior。
 
-* building
+* Development
 
 ** Local
 
 *** Setup
-See [[https://zmk.dev/docs/development/local-toolchain/setup/container][Official document]] to setup local toolchain. I recommend to use container approach.
+[[https://zmk.dev/docs/development/local-toolchain/setup/container][Official document]]
+公式documentを読み、containrでのセットアップをしておくこと。
+
+*** テストの実行
+起動したcontainer上で以下を実行する。
+
+#+begin_src sh
+  $ ./run-test.sh
+#+end_src
 
 * Usage
 #+begin_src yaml-ts
