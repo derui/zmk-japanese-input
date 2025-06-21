@@ -3,6 +3,6 @@
 
 description: Original japanese input behaviors
 
-compatible: "derui,japanese-input"
+compatible: "zmk,behavior-japanese-input"
 
 include: one_param.yaml
