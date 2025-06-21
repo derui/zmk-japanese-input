@@ -4,12 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include <behaviors/japanese-input.dtsi>
-
 / {
     behaviors {
         jp: japanese_input {
-            compatible = "derui,japanese-input";
+            compatible = "zmk,behavior-japanese-input";
             #binding-cells = <1>;
             display-name = "日本語のbinding";
         };
