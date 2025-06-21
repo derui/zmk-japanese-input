@@ -8,15 +8,7 @@
         compatible = "zmk,keymap";
         default_layer {
             bindings = <
-                &kp A &kp B
-                &kp C &num_word 1
-            >;
-        };
-
-        num_layer {
-            bindings = <
-                &kp N0 &kp N1
-                &trans &trans
+                &jp A &jp SPACE
             >;
         };
     };
