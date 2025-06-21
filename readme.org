@@ -1,0 +1,29 @@
+* Japanese Input for ZMK
+日本語入力を実装するbehavior。
+
+* building
+
+** Local
+
+*** Setup
+See [[https://zmk.dev/docs/development/local-toolchain/setup/container][Official document]] to setup local toolchain. I recommend to use container approach.
+
+* Usage
+#+begin_src yaml-ts
+  manifest:
+    remotes:
+      - name: zmkfirmware
+        url-base: https://github.com/zmkfirmware
+      - name: derui
+        url-base: https://github.com/derui
+    projects:
+      - name: zmk
+        remote: zmkfirmware
+        revision: main
+        import: app/west.yml
+      - name: zmk-japanese-input
+        remote: derui
+        revision: main
+    self:
+      path: config
+#+end_src
