@@ -9,7 +9,7 @@ else
     echo "Creating new directory: $BASE_DIR"
 fi
 
-mkdir -p $BASE_DIR
+mkdir -p $BASE_DIR/tests
 
 cp -R tests/* $BASE_DIR/tests/
 
@@ -20,6 +20,7 @@ if [ ! -d "$BASE_DIR/.west" ]; then
 fi
 
 west zephyr-export
-west build --pristine --board native_posix_64 -- -DZMK_CONFIG=/workspace/behavior/tests/ \
-     -DZMK_EXTRA_MODULES="/workspace/behavior"
+west build -s zmk/app --pristine -b native_posix_64 -- -DZMK_CONFIG=/workspace/behavior/tests/basic \
+     -DCONFIG_ASSERT=y \
+     -DZMK_EXTRA_MODULES="/workspaces/behavior"
 west test tests

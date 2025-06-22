@@ -1,0 +1,5 @@
+name: zmk-japanese-input
+build:
+  cmake: .
+  settings:
+    dts_root: .

@@ -1,4 +1,4 @@
-#include "../test_keymap.dtsi"
+#include "../behavior_keymap.dtsi"
 
 &kscan {
     events = <

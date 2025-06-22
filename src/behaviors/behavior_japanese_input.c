@@ -45,9 +45,9 @@ struct behavior_japanese_input_definition behavior_japanese_input_definitions[] 
     {.mapping = { B }, .result_seq = {O}},
     {.mapping = { N }, .result_seq = {A}},
     {.mapping = { M }, .result_seq = {H, A}},
-    {.mapping = { COMM }, .result_seq = {T, E}},
+    {.mapping = { COMMA }, .result_seq = {T, E}},
     {.mapping = { DOT }, .result_seq = {M, A}},
-    {.mapping = { SLSH }, .result_seq = {T, I}},
+    {.mapping = { SLASH }, .result_seq = {T, I}},
 
     // シフトキー
     {.mapping = {SPACE}, .result_seq = {SPACE}},
@@ -71,9 +71,9 @@ struct behavior_japanese_input_definition behavior_japanese_input_definitions[] 
     {.mapping = {SPACE, Z}, .result_seq = {H, I}},
     {.mapping = {SPACE, X}, .result_seq = {F, U}},
     {.mapping = {SPACE, M}, .result_seq = {N, E}},
-    {.mapping = {SPACE, COMM}, .result_seq = {Y, A}},
+    {.mapping = {SPACE, COMMA}, .result_seq = {Y, A}},
     {.mapping = {SPACE, DOT}, .result_seq = {M, U}},
-    {.mapping = {SPACE, SLSH}, .result_seq = {N, U}},
+    {.mapping = {SPACE, SLASH}, .result_seq = {N, U}},
 
     {.mapping = {ENTER, R}, .result_seq = {H, E}},
     {.mapping = {ENTER, U}, .result_seq = {Y, U}},
@@ -92,9 +92,9 @@ struct behavior_japanese_input_definition behavior_japanese_input_definitions[] 
     {.mapping = {ENTER, Z}, .result_seq = {H, I}},
     {.mapping = {ENTER, X}, .result_seq = {F, U}},
     {.mapping = {ENTER, M}, .result_seq = {N, E}},
-    {.mapping = {ENTER, COMM}, .result_seq = {Y, A}},
+    {.mapping = {ENTER, COMMA}, .result_seq = {Y, A}},
     {.mapping = {ENTER, DOT}, .result_seq = {M, U}},
-    {.mapping = {ENTER, SLSH}, .result_seq = {N, U}},
+    {.mapping = {ENTER, SLASH}, .result_seq = {N, U}},
 
     // 濁音・半濁音
     {.mapping = {W, J}, .result_seq = {Z, U}},
@@ -115,8 +115,8 @@ struct behavior_japanese_input_definition behavior_japanese_input_definitions[] 
     {.mapping = {X, J}, .result_seq = {B, U}},
     {.mapping = {C, J}, .result_seq = {G, I}},
     {.mapping = {M, F}, .result_seq = {B, A}},
-    {.mapping = {COMM, F}, .result_seq = {D, E}},
-    {.mapping = {SLSH, F}, .result_seq = {D, I}},
+    {.mapping = {COMMA, F}, .result_seq = {D, E}},
+    {.mapping = {SLASH, F}, .result_seq = {D, I}},
     {.mapping = {R, M}, .result_seq = {P, E}},
     {.mapping = {G, M}, .result_seq = {P, O}},
     {.mapping = {Z, M}, .result_seq = {P, I}},
@@ -137,56 +137,56 @@ struct behavior_japanese_input_definition behavior_japanese_input_definitions[] 
     {.mapping = { T, SCLN }, .result_seq = { X, U }},
     {.mapping = { T, U }, .result_seq = { X, Y, U }},
     {.mapping = { T, J }, .result_seq = { X, Y, O }},
-    {.mapping = { T, COMM }, .result_seq = { X, Y, A }},
+    {.mapping = { T, COMMA }, .result_seq = { X, Y, A }},
 
     // 拗音拡張
     {.mapping = {A, I}, .result_seq = {S, Y, U}},
     {.mapping = {A, K}, .result_seq = {S, Y, O}},
-    {.mapping = {A, COMM}, .result_seq = {S, Y, A}},
+    {.mapping = {A, COMMA}, .result_seq = {S, Y, A}},
 
     {.mapping = {C, I}, .result_seq = {K, Y, U}},
     {.mapping = {C, K}, .result_seq = {K, Y, O}},
-    {.mapping = {C, COMM}, .result_seq = {K, Y, A}},
+    {.mapping = {C, COMMA}, .result_seq = {K, Y, A}},
 
-    {.mapping = {SLSH, E}, .result_seq = {T, Y, U}},
-    {.mapping = {SLSH, D}, .result_seq = {T, Y, O}},
-    {.mapping = {SLSH, C}, .result_seq = {T, Y, A}},
+    {.mapping = {SLASH, E}, .result_seq = {T, Y, U}},
+    {.mapping = {SLASH, D}, .result_seq = {T, Y, O}},
+    {.mapping = {SLASH, C}, .result_seq = {T, Y, A}},
 
     {.mapping = {G, I}, .result_seq = {N, Y, U}},
     {.mapping = {G, K}, .result_seq = {N, Y, O}},
-    {.mapping = {G, COMM}, .result_seq = {N, Y, A}},
+    {.mapping = {G, COMMA}, .result_seq = {N, Y, A}},
 
     {.mapping = {D, I}, .result_seq = {M, Y, U}},
     {.mapping = {D, K}, .result_seq = {M, Y, O}},
-    {.mapping = {D, COMM}, .result_seq = {M, Y, A}},
+    {.mapping = {D, COMMA}, .result_seq = {M, Y, A}},
 
     {.mapping = {Z, I}, .result_seq = {H, Y, U}},
     {.mapping = {Z, K}, .result_seq = {H, Y, O}},
-    {.mapping = {Z, COMM}, .result_seq = {H, Y, A}},
+    {.mapping = {Z, COMMA}, .result_seq = {H, Y, A}},
 
     {.mapping = {X, I}, .result_seq = {R, Y, U}},
     {.mapping = {X, K}, .result_seq = {R, Y, O}},
-    {.mapping = {X, COMM}, .result_seq = {R, Y, A}},
+    {.mapping = {X, COMMA}, .result_seq = {R, Y, A}},
     
     {.mapping = {A, I, O}, .result_seq = {Z, Y, U}},
     {.mapping = {A, K, L}, .result_seq = {Z, Y, O}},
-    {.mapping = {A, COMM, DOT}, .result_seq = {Z, Y, A}},
+    {.mapping = {A, COMMA, DOT}, .result_seq = {Z, Y, A}},
 
     {.mapping = {C, I, O}, .result_seq = {G, Y, U}},
     {.mapping = {C, K, L}, .result_seq = {G, Y, O}},
-    {.mapping = {C, COMM, DOT}, .result_seq = {G, Y, A}},
+    {.mapping = {C, COMMA, DOT}, .result_seq = {G, Y, A}},
 
-    {.mapping = {SLSH, E, W}, .result_seq = {D, Y, U}},
-    {.mapping = {SLSH, D, S}, .result_seq = {D, Y, O}},
-    {.mapping = {SLSH, C, X}, .result_seq = {D, Y, A}},
+    {.mapping = {SLASH, E, W}, .result_seq = {D, Y, U}},
+    {.mapping = {SLASH, D, S}, .result_seq = {D, Y, O}},
+    {.mapping = {SLASH, C, X}, .result_seq = {D, Y, A}},
 
     {.mapping = {Z, I, O}, .result_seq = {B, Y, U}},
     {.mapping = {Z, K, L}, .result_seq = {B, Y, O}},
-    {.mapping = {Z, COMM, DOT}, .result_seq = {B, Y, A}},
+    {.mapping = {Z, COMMA, DOT}, .result_seq = {B, Y, A}},
 
     {.mapping = {Z, I, U}, .result_seq = {P, Y, U}},
     {.mapping = {Z, K, J}, .result_seq = {P, Y, O}},
-    {.mapping = {Z, COMM, M}, .result_seq = {P, Y, A}},
+    {.mapping = {Z, COMMA, M}, .result_seq = {P, Y, A}},
 };
 
 // 押されているkeycodeを保持する配列
