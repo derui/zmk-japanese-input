@@ -1,0 +1,11 @@
+binding_pressed: position 0 keycode 0x04
+binding_pressed: position 1 keycode 0x2C
+binding_released: position 0 keycode 0x04
+find_defintion: Found definition at 26
+raise_keycode_state_changed_event: Rising event for keycode 0x08
+binding_pressed: position 2 keycode 0x16
+binding_released: position 2 keycode 0x16
+find_defintion: Found definition at 27
+raise_keycode_state_changed_event: Rising event for keycode 0x16
+raise_keycode_state_changed_event: Rising event for keycode 0x08
+binding_released: position 1 keycode 0x2C

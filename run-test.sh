@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+testcase=$1
+
 BASE_DIR=/tmp/zmk-config
 
 if [ -d "$BASE_DIR" ]; then
@@ -20,7 +22,13 @@ if [ ! -d "$BASE_DIR/.west" ]; then
 fi
 
 west zephyr-export
-west build -s zmk/app --pristine -b native_posix_64 -- -DZMK_CONFIG=/workspace/behavior/tests/basic \
+west build -s zmk/app --pristine -b native_posix_64 -- -DZMK_CONFIG=/workspaces/behavior/tests/$testcase \
      -DCONFIG_ASSERT=y \
      -DZMK_EXTRA_MODULES="/workspaces/behavior"
-west test tests
+
+${BASE_DIR}/build/zephyr/zmk.exe |
+    sed -e "s/.*> //" |
+    tee /workspaces/behavior/tests/$testcase/keycode_events_full.log |
+    sed -n -f /workspaces/behavior/tests/$testcase/events.patterns > /workspaces/behavior/tests/$testcase/keycode_events.log
+
+diff -auZ  /workspaces/behavior/tests/$testcase/keycode_events.snapshot /workspaces/behavior/tests/$testcase/keycode_events.log

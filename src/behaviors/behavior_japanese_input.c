@@ -190,15 +190,35 @@ struct behavior_japanese_input_definition behavior_japanese_input_definitions[] 
 };
 
 // 押されているkeycodeを保持する配列
-uint32_t captured_keycodes[JAPANESE_INPUT_CAPTURE_SIZE] = {0, 0, 0};
+static uint32_t captured_keycodes[JAPANESE_INPUT_CAPTURE_SIZE] = {0, 0, 0};
+bool continued_shift = false;
+
+void japanese_input_reset_capture(bool continue_shift) {
+  uint32_t shift_key = 0;
+  
+  // captureされたkeycodeをリセットする
+  for (int i = 0; i < JAPANESE_INPUT_CAPTURE_SIZE; i++) {
+    if (shift_key == 0 && (captured_keycodes[i] == ZMK_HID_USAGE_ID(SPACE) || captured_keycodes[i] == ZMK_HID_USAGE_ID(ENTER))) {
+      shift_key = captured_keycodes[i];
+    }
+    captured_keycodes[i] = 0;
+  }
+
+  // シフトキーが押されている場合は、SPACEとENTERを保持する
+  if (continue_shift && shift_key != 0) {
+    captured_keycodes[0] = shift_key;
+    continued_shift = true;
+  } else {
+    continued_shift = false;
+  }
+}
 
 // 対象とするキーコードをcaptureする
 // captureされたkeycodeは常に0番目に設定され、各々の値は後ろにずらしていく
 void japanese_input_capture_keycode(uint32_t keycode) {
-    for (int i = 0; i < JAPANESE_INPUT_CAPTURE_SIZE - 1; i++) {
-      captured_keycodes[i + 1] = captured_keycodes[i];
-    }
-    captured_keycodes[0] = keycode;
+  captured_keycodes[2] = captured_keycodes[1];
+  captured_keycodes[1] = captured_keycodes[0];
+  captured_keycodes[0] = keycode;
 }
 
 // seqをkeycodeの順にsortする
@@ -214,19 +234,96 @@ void japanese_input_sort_sequence(uint32_t *seq, size_t size) {
     }
 }
 
+struct behavior_japanese_input_definition* japanese_input_find_defintion(uint32_t captured[JAPANESE_INPUT_CAPTURE_SIZE]) {
+  int def_size = sizeof(behavior_japanese_input_definitions) / sizeof(behavior_japanese_input_definitions[0]);
+
+  // 並びは正規化されているものとする
+  uint32_t copied[JAPANESE_INPUT_CAPTURE_SIZE] = {};
+  memcpy(copied, captured, sizeof(uint32_t) * JAPANESE_INPUT_CAPTURE_SIZE);
+  japanese_input_sort_sequence(copied, JAPANESE_INPUT_CAPTURE_SIZE);
+
+  for (int i = 0; i < def_size; i++) {
+    bool match = true;
+    for (int j = 0; j < JAPANESE_INPUT_CAPTURE_SIZE; j++) {
+      if (ZMK_HID_USAGE_ID(behavior_japanese_input_definitions[i].mapping[j]) != copied[j]) {
+        match = false;
+        break;
+      }
+    }
+    if (match) {
+      LOG_DBG("Found definition at %d", i);
+      return &behavior_japanese_input_definitions[i];
+    }
+  }
+
+  return NULL;
+}
+
+void japanese_input_raise_keycode_state_changed_event(struct behavior_japanese_input_definition* def, uint32_t timestamp) {
+
+    if (def == NULL) {
+        LOG_ERR("Definition is null, detect invalid code flow");
+        return;
+    }
+
+    uint16_t page = HID_USAGE_KEY;
+    uint8_t implicit_modifiers = 0x00;
+    uint8_t explicit_modifiers = 0x00;
+    uint32_t event_timestamp = timestamp;
+
+    for (int i = 0; i < JAPANESE_INPUT_CAPTURE_SIZE; i++) {
+      if (def->result_seq[i] == 0) {
+        // 0は無視する
+        continue;
+      }
+      struct zmk_keycode_state_changed press_event = {.usage_page = page,
+                                                      .keycode = ZMK_HID_USAGE_ID(def->result_seq[i]),
+                                                      .implicit_modifiers = implicit_modifiers,
+                                                      .explicit_modifiers = explicit_modifiers,
+                                                      .state = true,
+                                                      .timestamp = event_timestamp++};
+
+
+      struct zmk_keycode_state_changed release_event = {.usage_page = page,
+                                                        .keycode = ZMK_HID_USAGE_ID(def->result_seq[i]),
+                                                        .implicit_modifiers = implicit_modifiers,
+                                                        .explicit_modifiers = explicit_modifiers,
+                                                        .state = false,
+                                                        .timestamp = event_timestamp++};
+      
+      LOG_DBG("Rising event for keycode 0x%02X", ZMK_HID_USAGE_ID(def->result_seq[i]));
+      raise_zmk_keycode_state_changed(press_event);
+      raise_zmk_keycode_state_changed(release_event);
+    }
+}
+
 static int on_japanese_input_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
-    LOG_DBG("position %d keycode 0x%02X", event.position, binding->param1);
-    japanese_input_capture_keycode(binding->param1);
+    uint16_t id = ZMK_HID_USAGE_ID(binding->param1);
+    LOG_DBG("position %d keycode 0x%02X", event.position, id);
+    japanese_input_capture_keycode(id);
 
-    // pressでは何も行わないことにする
     return ZMK_BEHAVIOR_OPAQUE;
 }
 
 static int on_japanese_input_binding_released(struct zmk_behavior_binding *binding,
                                       struct zmk_behavior_binding_event event) {
-    LOG_DBG("position %d keycode 0x%02X", event.position, binding->param1);
-    return raise_zmk_keycode_state_changed_from_encoded(binding->param1, false, event.timestamp);
+    uint16_t id = ZMK_HID_USAGE_ID(binding->param1);
+    LOG_DBG("position %d keycode 0x%02X", event.position, id);
+
+    if ((binding->param1 == SPACE || binding->param1 == ENTER) && continued_shift) {
+      // 連続シフトの間にSPACEとENTER自体が離された場合は、単独での押下は行われない
+      japanese_input_reset_capture(false);
+      return ZMK_BEHAVIOR_OPAQUE;
+    }
+
+    struct behavior_japanese_input_definition* def = japanese_input_find_defintion(captured_keycodes);
+    if (def != NULL) {
+      japanese_input_raise_keycode_state_changed_event(def, event.timestamp);
+    }
+    japanese_input_reset_capture(!(binding->param1 == SPACE || binding->param1 == ENTER));
+
+    return ZMK_BEHAVIOR_OPAQUE;
 }
 
 static const struct behavior_driver_api behavior_japanese_input_driver_api = {
@@ -255,6 +352,6 @@ static int japanese_input_init(const struct device *dev) {
 
 #define KP_INST(n)                                                                                 \
     BEHAVIOR_DT_INST_DEFINE(n, japanese_input_init, NULL, NULL, NULL, POST_KERNEL,                                \
-                            CONFIG_KERNEL_INIT_PRIORITY_DEFAULT, &behavior_key_press_driver_api);
+                            CONFIG_KERNEL_INIT_PRIORITY_DEFAULT, &behavior_japanese_input_driver_api);
 
 DT_INST_FOREACH_STATUS_OKAY(KP_INST)
