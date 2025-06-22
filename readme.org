@@ -30,6 +30,8 @@ containerは以下のようにして起動する必要がある。
 #+end_src
 
 * Usage
+west.ymlまたはdeps.ymlに追記する。
+
 #+begin_src yaml-ts
   manifest:
     remotes:
@@ -48,3 +50,21 @@ containerは以下のようにして起動する必要がある。
     self:
       path: config
 #+end_src
+
+追加後、.keymapファイルでdtsiをincludeする。
+
+#+begin_example
+  #include <behaviors/japanese_input.dtsi>
+
+  / {
+      keymap {
+          compatible = "zmk,keymap";
+          default_layer {
+              bindings = <
+                  &jp A &jp SPACE &jp S
+              >;
+          };
+      };
+  };
+
+#+end_example
