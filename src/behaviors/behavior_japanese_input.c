@@ -28,6 +28,14 @@ struct behavior_japanese_input_definition {
 };
 
 struct behavior_japanese_input_definition behavior_japanese_input_definitions[] = {
+    {.mapping = { Q }, .result_seq = {V, U}},
+    {.mapping = { W }, .result_seq = {S, U}},
+    {.mapping = { E }, .result_seq = {I}},
+    {.mapping = { R }, .result_seq = {X, T, U}},
+    {.mapping = { U }, .result_seq = {K, O}},
+    {.mapping = { I }, .result_seq = {T, O}},
+    {.mapping = { O }, .result_seq = {T, A}},
+
     {.mapping = { A }, .result_seq = {S, H, I}},
     {.mapping = { S }, .result_seq = {N, O}},
     {.mapping = { D }, .result_seq = {K, U}},
