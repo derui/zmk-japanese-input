@@ -8,8 +8,15 @@
     behaviors {
         jp: japanese_input {
             compatible = "zmk,behavior-japanese-input";
-            #binding-cells = <1>;
+            #binding-cells = <2>;
             display-name = "日本語のbinding";
         };
+
+        jp_tog: japanese_input_toggle {
+            compatible = "zmk,behavior-japanese-input-toggle";
+            #binding-cells = <1>;
+            display-name = "日本語bindingの有効・無効を切り替える";
+        };
+
     };
 };

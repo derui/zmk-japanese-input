@@ -1,0 +1,9 @@
+# Copyright (c) 2020-2025 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+description: Enable/Disable Original japanese input behaviors
+
+compatible: "zmk,behavior-japanese-input-toggle"
+
+# a parameter is integer, <1> is enabled, <0> is disabled
+include: one_param.yaml

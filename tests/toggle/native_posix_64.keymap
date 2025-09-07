@@ -1,0 +1,47 @@
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <behaviors/japanese_input.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+        default_layer {
+            bindings = <
+                &jp A B
+                &jp SPACE SPACE
+                &jp_tog 1
+                &jp_tog 0
+            >;
+        };
+    };
+};
+
+
+&kscan {
+    events = <
+        // enabled
+        ZMK_MOCK_PRESS(0,2,10)
+        ZMK_MOCK_RELEASE(0,2,10)
+                
+        ZMK_MOCK_PRESS(0,0,10)
+        ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_PRESS(0,1,10)
+        ZMK_MOCK_RELEASE(0,1,10)
+
+        // シフト面の確認
+        ZMK_MOCK_PRESS(0,0,10)
+        ZMK_MOCK_PRESS(0,1,10)
+        ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_RELEASE(0,1,10)
+
+        // disabled
+        ZMK_MOCK_PRESS(0,3,10)
+        ZMK_MOCK_RELEASE(0,3,10)
+
+        ZMK_MOCK_PRESS(0,0,10)
+        ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_PRESS(0,1,10)
+        ZMK_MOCK_RELEASE(0,1,10)
+    >;
+};

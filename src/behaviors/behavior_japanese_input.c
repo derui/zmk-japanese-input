@@ -310,6 +310,14 @@ static int on_japanese_input_binding_pressed(struct zmk_behavior_binding *bindin
                                      struct zmk_behavior_binding_event event) {
     uint16_t id = ZMK_HID_USAGE_ID(binding->param1);
     LOG_DBG("position %d keycode 0x%02X", event.position, id);
+
+    if (japanese_input_enablement() == false) {
+      // 日本語入力ビヘイビアが無効な場合は、2つめのパラメーターにフォールバックする
+      raise_zmk_keycode_state_changed_from_encoded(binding->param2, true, event.timestamp);
+      LOG_DBG("fallback to 0x%02X", ZMK_HID_USAGE_ID(binding->param2));
+      return ZMK_BEHAVIOR_OPAQUE;
+    }
+    
     japanese_input_capture_keycode(id);
 
     return ZMK_BEHAVIOR_OPAQUE;
@@ -319,6 +327,13 @@ static int on_japanese_input_binding_released(struct zmk_behavior_binding *bindi
                                       struct zmk_behavior_binding_event event) {
     uint16_t id = ZMK_HID_USAGE_ID(binding->param1);
     LOG_DBG("position %d keycode 0x%02X", event.position, id);
+
+    if (japanese_input_enablement() == false) {
+      // 日本語入力ビヘイビアが無効な場合は、2つめのパラメーターにフォールバックする
+      raise_zmk_keycode_state_changed_from_encoded(binding->param2, false, event.timestamp);
+      LOG_DBG("fallback to 0x%02X", ZMK_HID_USAGE_ID(binding->param2));
+      return ZMK_BEHAVIOR_OPAQUE;
+    }
 
     if ((binding->param1 == SPACE || binding->param1 == ENTER) && continued_shift) {
       // 連続シフトの間にSPACEとENTER自体が離された場合は、単独での押下は行われない
@@ -359,8 +374,8 @@ static int japanese_input_init(const struct device *dev) {
   return 0;
 };
 
-#define KP_INST(n)                                                                                 \
+#define JP_INST(n)                                                                                 \
     BEHAVIOR_DT_INST_DEFINE(n, japanese_input_init, NULL, NULL, NULL, POST_KERNEL,                                \
                             CONFIG_KERNEL_INIT_PRIORITY_DEFAULT, &behavior_japanese_input_driver_api);
 
-DT_INST_FOREACH_STATUS_OKAY(KP_INST)
+DT_INST_FOREACH_STATUS_OKAY(JP_INST)

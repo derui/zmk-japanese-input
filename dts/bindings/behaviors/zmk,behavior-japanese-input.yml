@@ -5,4 +5,5 @@ description: Original japanese input behaviors
 
 compatible: "zmk,behavior-japanese-input"
 
-include: one_param.yaml
+# first param is key when enabled, second param is fallback key when disabled
+include: two_param.yaml
