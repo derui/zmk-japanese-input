@@ -312,7 +312,7 @@ static int on_japanese_input_binding_pressed(struct zmk_behavior_binding *bindin
     LOG_DBG("position %d keycode 0x%02X", event.position, id);
 
     if (japanese_input_enablement() == false) {
-      // 日本語入力ビヘイビアが無効な場合は、2つめのパラメーターにフォールバックする
+      // 日本語入力が無効な場合は、2つめのパラメーターにフォールバックする
       raise_zmk_keycode_state_changed_from_encoded(binding->param2, true, event.timestamp);
       LOG_DBG("fallback to 0x%02X", ZMK_HID_USAGE_ID(binding->param2));
       return ZMK_BEHAVIOR_OPAQUE;
@@ -329,7 +329,7 @@ static int on_japanese_input_binding_released(struct zmk_behavior_binding *bindi
     LOG_DBG("position %d keycode 0x%02X", event.position, id);
 
     if (japanese_input_enablement() == false) {
-      // 日本語入力ビヘイビアが無効な場合は、2つめのパラメーターにフォールバックする
+      // 日本語入力が無効な場合は、2つめのパラメーターにフォールバックする
       raise_zmk_keycode_state_changed_from_encoded(binding->param2, false, event.timestamp);
       LOG_DBG("fallback to 0x%02X", ZMK_HID_USAGE_ID(binding->param2));
       return ZMK_BEHAVIOR_OPAQUE;
