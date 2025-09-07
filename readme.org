@@ -16,8 +16,7 @@ containerは以下のようにして起動する必要がある。
   podman run -it --rm \
     --security-opt label=disable \
     --workdir /workspaces/behavior \
-    -v /path/to/zmk:/workspaces/zmk \
-    -v /path/to/this/repository:workspaces/behavior \
+    -v /path/to/this/repository:/workspaces/behavior \
     -p 3000:3000 \
     zmk-build /bin/bash
 #+end_src
