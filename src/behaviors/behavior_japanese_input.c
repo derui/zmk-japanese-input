@@ -63,6 +63,8 @@ struct behavior_japanese_input_definition behavior_japanese_input_definitions[] 
     {.mapping = {ENTER}, .result_seq = {ENTER}},
 
     // シフト面
+    {.mapping = {SPACE, W}, .result_seq = {M, E}},
+    {.mapping = {SPACE, E}, .result_seq = {MINUS}},
     {.mapping = {SPACE, R}, .result_seq = {H, E}},
     {.mapping = {SPACE, U}, .result_seq = {Y, U}},
     {.mapping = {SPACE, I}, .result_seq = {W, A}},
