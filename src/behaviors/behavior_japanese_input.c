@@ -86,6 +86,8 @@ struct behavior_japanese_input_definition behavior_japanese_input_definitions[] 
     {.mapping = {SPACE, DOT}, .result_seq = {M, U}},
     {.mapping = {SPACE, SLASH}, .result_seq = {N, U}},
 
+    {.mapping = {ENTER, W}, .result_seq = {M, E}},
+    {.mapping = {ENTER, E}, .result_seq = {MINUS}},
     {.mapping = {ENTER, R}, .result_seq = {H, E}},
     {.mapping = {ENTER, U}, .result_seq = {Y, U}},
     {.mapping = {ENTER, I}, .result_seq = {W, A}},
